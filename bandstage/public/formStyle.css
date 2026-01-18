@@ -1,0 +1,293 @@
+body {
+    margin: 0;
+    background: url("assets/back.png") center / cover no-repeat fixed;
+    min-height: 100vh; /* fills viewport */
+    display: grid;
+    place-items: center; /* vertically + horizontally */
+}
+
+.form header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 8px;
+    background-color: #02becf39;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+/* toggle goes left */
+.role-segment {
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: 15px;
+}
+
+
+.form {
+    width: 80%;
+    min-height: 95vh;
+    background: rgba(255, 255, 255, 0.126);
+    border-radius: 12px;
+    margin: 0px;
+}
+
+/* hide the checkbox */
+#roleSwitch {
+    position: absolute;
+    opacity: 0;
+}
+
+/* switch body */
+label[for="roleSwitch"] {
+    --w: 120px;
+    --h: 44px;
+    --pad: 4px;
+    position: relative;
+    display: inline-block;
+    width: var(--w);
+    height: var(--h);
+    background: #02becf;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+/* text on switch */
+label[for="roleSwitch"]::before {
+    content: attr(data-off);
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font: 700 14px/1 system-ui, sans-serif;
+    color: #111;
+}
+
+/* thumb */
+label[for="roleSwitch"]::after {
+    content: "";
+    position: absolute;
+    top: var(--pad);
+    left: var(--pad);
+    width: calc(var(--h) - 2*var(--pad));
+    height: calc(var(--h) - 2*var(--pad));
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+    transition: transform .22s ease;
+}
+
+/* on state */
+#roleSwitch:checked+label {
+    background: #920072;
+}
+
+#roleSwitch:checked+label::before {
+    content: attr(data-on);
+    color: #ffffff;
+}
+
+#roleSwitch:checked+label::after {
+    transform: translateX(calc(var(--w) - var(--h)));
+}
+
+
+.header-title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /*perfect centering*/
+    margin: 0;
+    pointer-events: none; /* to not cover the toggle on clicks */
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(5, 165, 152, 0.3);
+}
+
+label {
+    display: block;
+    margin-bottom: 2px;
+    color: #02becf;
+    font-weight: bold;
+}
+
+
+.row-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 cols */
+    gap: 16px; /* space between */
+    place-items: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+
+}
+
+.field {
+    display: flex;
+    flex-direction: column; /* label above, input below */
+    gap: 0px;
+}
+
+.field input {
+    width: 500px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border-color: rgba(5, 165, 152);
+    padding-left: 10px;
+    
+}
+
+.row-fields.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0px;
+}
+
+.field select{
+    border-radius: 5px;
+    border-color: rgba(5, 165, 152);
+    width: fit-content;
+    padding: 2px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  padding: 12px 20px 24px;
+}
+
+/* submit button */
+.btn-submit {
+  min-width: 220px;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: 700;
+  border: 0;
+  border-radius: 12px;         
+  background: #02becf;
+  color: #0b1f22;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,.18), inset 0 0 10px rgba(255,255,255,.25);
+}
+
+.btn-submit:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,.22), inset 0 0 14px rgba(255,255,255,.28);
+}
+
+.hint{
+    color:azure
+}
+.gender {
+  border: 0;
+  padding: 0;
+  margin: 0 0 8px 0;
+}
+
+.gender legend {
+  display: block;       /* title on top */
+  margin: 0 0 6px 0;
+  padding: 0;
+  color: #02becf;
+    font-weight: bold;
+}
+
+/* 3 divs with input+label in a row */
+.gender > div {
+  display: inline-flex;     /* no block */
+  align-items: center;
+  gap: 6px;
+  width: auto !important;   /* override width:100% from global CSS */
+  margin-right: 12px;       
+  white-space: nowrap;      /* dont break */
+}
+
+/* gap before label */
+.gender input[type="radio"] {
+  margin: 0 4px 0 0;
+}
+
+
+.gender label {
+  display: inline;          /* keep them compact in a row */
+}
+
+/* default: User form, hide Band form */
+.form-user { display: block; }
+.form-band { display: none; }
+
+/* When in Band mode, apply theme colors */
+body.is-band .form header { background:#92007233; }
+body.is-band .form label,
+body.is-band .form .gender legend { color:#ff77dd; }
+body.is-band .form .field input,
+body.is-band .form .field select,
+body.is-band .form textarea { border-color:#920072; }
+body.is-band .form .btn-submit { background:#920072; color:#fff; }
+
+/* And theme for the Band form (which is separate, below) */
+body.is-band .form-band label,
+body.is-band .form-band .gender legend { color:#ff77dd; }
+body.is-band .form-band .field input,
+body.is-band .form-band .field select,
+body.is-band .form-band textarea { border-color:#920072; }
+body.is-band .form-band .btn-submit { background:#920072; color:#fff; }
+
+/* 2 columns with proper alignment on the same row */
+.row-fields.two-col{
+  grid-template-columns: 1fr 1fr;   /* left description, right stack */
+  align-items: start;
+}
+
+/* vertical stack on the right (photo on top, webpage below) */
+.vstack{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;            /* distance between fields */
+  width: 100%;
+}
+
+/* make sure inputs in the right column fill properly */
+.vstack .field input{
+  width: 100%;
+  max-width: 500px;     /* to visually align with the left description */
+}
+
+/* 4 columns */
+.row-fields.four{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* better filling of fields inside the grid */
+.row-fields.four .field input,
+.row-fields.four .field select,
+.row-fields.four .field textarea{
+  width: 100%;
+  max-width: 500px;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper #password {
+  padding-right: 40px; 
+}
+
+
+.password-wrapper .toggle-password-icon {
+  
+  width: 20px;
+  height: auto; 
+  
+  
+  position: absolute; 
+  right: 15px; 
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}

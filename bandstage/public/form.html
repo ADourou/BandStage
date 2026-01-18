@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="formStyle.css">
+    <meta name="description" content="Registration Form to BandStage platform for simple users and for band members">
+    <meta name="keywords" content="registration, form, users, band members, HTML5, CSS3">
+    <meta name="author" content="Anastasia D.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const r = document.getElementById('roleSwitch');
+            const user = document.querySelector('.form-user');
+            const band = document.querySelector('.form-band');
+
+            const sync = () => {
+                let on = false;
+                if (r && r.checked) {
+                    on = true;
+                }
+
+                if (user) {
+                    user.hidden = on;
+                    if (on) {
+                        user.style.display = 'none';
+                    } else {
+                        user.style.display = 'block';
+                    }
+                }
+
+                if (band) {
+                    band.hidden = !on;
+                    if (on) {
+                        band.style.display = 'block';
+                    } else {
+                        band.style.display = 'none';
+                    }
+                }
+
+                if (on) {
+                    document.body.classList.add('is-band');
+                } else {
+                    document.body.classList.remove('is-band');
+                }
+            };
+
+            r && r.addEventListener('input', sync);
+            sync();
+        });
+
+
+    </script>
+</head>
+
+
+<body>
+    <div class="form">
+        <header>
+            <img src="assets/logo.png" alt="BandStage logo" style="width: 60px; margin-right:0px;">
+            <img src="assets/bandstage.png" alt="BandStage text logo" style="width: 100px; margin-left:-10px;">
+
+            <h2 class="header-title">Sign up</h2>
+
+            <div class="role-segment">
+                <input id="roleSwitch" type="checkbox">
+                <label for="roleSwitch" data-off="User" data-on="Band"></label>
+
+            </div>
+        </header>
+
+        <main>
+            <form id="registrationForm" class="form-user" action="#" method="post">
+                <div class="row-fields">
+                    <div class="field">
+                        <label for="username">*Username</label>
+                        <input id="username" name="username" type="text" placeholder="e.g., JohnSmith" required
+                            pattern="^[A-Za-z][A-Za-z0-9]{5,}$" minlength="6">
+                    </div>
+
+                    <div class="field">
+                        <label for="email">*Email</label>
+                        <input id="email" name="email" type="email" placeholder="e.g., john@example.com" required>
+                    </div>
+                </div>
+
+
+                <div class="row-fields">
+                    <div class="field">
+                        <label for="password">*Password</label>
+                        <div class="password-wrapper">
+                            <input id="password" name="password" type="password" required minlength="8" maxlength="14"
+                                pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[#$%&@!^*?_+\-]).{8,14}$" aria-describedby="pw-hint">
+
+                            <img src="assets/view.png" id="togglePassword" class="toggle-password-icon"
+                                alt="Show/Hide Password">
+                        </div>
+                        <small id="pw-hint" class="hint">8–14 chars, ≥1 capital, ≥1 number, ≥1 symbol (# $ % & @ ! ^ * ?
+                            _ + -)</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="ConfirmPass">*Confirm Password</label>
+                        <div class="password-wrapper">
+                            <input id="ConfirmPass" name="ConfirmPass" type="password" required minlength="8"
+                                maxlength="14" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[#$%&@!^*?_+\-]).{8,14}$"
+                                aria-describedby="cpw-hint">
+                            <img src="assets/view.png" id="toggleConfirmPassword" class="toggle-password-icon"
+                                alt="Show/Hide Password">
+                        </div>
+                        <small id="cpw-hint" class="hint">Please re-enter the same password.</small>
+                    </div>
+
+                    <div id="passwordError" style="color: red; display: none;">
+                        Password and Confirm Password fields don't match.
+                    </div>
+
+                    <div id="strengthError" style="color: red; display: none;">
+                    </div>
+                </div>
+
+                <div class="row-fields">
+                    <div class="field">
+                        <label for="firstName">*Name</label>
+                        <input id="firstName" name="firstname" type="text" required pattern="^[A-Za-z]{3,30}$"
+                            minlength="3" maxlength="30" placeholder="e.g., Maria">
+                    </div>
+
+                    <div class="field">
+                        <label for="lastName">*Surname</label>
+                        <input id="lastName" name="lastname" type="text" required pattern="^[A-Za-z]{3,30}$"
+                            minlength="3" maxlength="30" placeholder="e.g., Papadaki">
+                    </div>
+                </div>
+
+
+                <div class="row-fields three">
+                    <div class="field">
+                        <label for="birthday">*Date of Birth</label>
+                        <input style="width:fit-content;" id="birthday" name="birthdate" type="date" required
+                            min="1920-01-01" max="2011-12-31" value="1980-01-01">
+                    </div>
+
+                    <div class="field">
+                        <label for="telephone">*Phone Number</label>
+                        <input style="width: 300px;" id="telephone" name="telephone" type="tel" required
+                            inputmode="numeric" pattern="^\d{10,14}$" placeholder="e.g. 1234567890">
+                    </div>
+
+                    <fieldset class="gender" style="border:0; padding:0; margin:0;">
+                        <legend style="font-size:0.95rem;">*Gender</legend>
+                        <div>
+                            <input type="radio" id="gender-m" name="gender" value="Male" required>
+                            <label style="color: aliceblue; font-weight: normal;" for="gender-m">Male</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="gender-f" name="gender" value="Female">
+                            <label style="color: aliceblue; font-weight: normal;" for="gender-f">Female</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="gender-o" name="gender" value="Other">
+                            <label style="color: aliceblue; font-weight: normal;" for="gender-o">Other</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="row-fields three">
+                    <div class="field">
+                        <label for="country">*Country</label>
+
+                        <select style="width: 250px;" id="country" name="country">
+                            <option value="GR">Greece</option>
+                            <option value="US">United States</option>
+                            <option value="GB">United Kingdom</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="city">*City of Residence</label>
+                        <input id="city" style="width: 250px;" name="city" type="text" required
+                            pattern="^[A-Za-z ]{3,30}$" minlength="3" maxlength="30" placeholder="e.g., Heraklion">
+                    </div>
+
+                    <div class="field">
+                        <label for="address">*Address</label>
+                        <textarea style="border-radius: 5px; border: 1px solid rgba(5, 165, 152);" id="address"
+                            name="address" required minlength="10" maxlength="150" rows="2"
+                            placeholder="Street, number, area"></textarea>
+                    </div>
+                </div>
+
+                <div
+                    style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 25px;">
+
+                    <button type="button" id="verifyAddressBtn" class="btn-submit"
+                        style="background-color: #02becf;">Check Address</button>
+
+                    <div id="addressMessage" style="color: aliceblue; font-weight: bold;"></div>
+
+                    <button type="button" id="showMapBtn" class="btn-submit"
+                        style="background-color: #ff00ff; display: none;">See on the map</button>
+
+                </div>
+                <div id="mapContainer"
+                    style="width: 100%; height: 400px; margin-top: 15px; display: none; background-color: #333; border-radius: 5px;">
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn-submit">Register</button>
+                </div>
+            </form>
+
+            <form id="registrationFormBand" class="form-band" action="#" method="post">
+                <div class="row-fields">
+                    <div class="field">
+                        <label for="band_username">*Username</label>
+                        <input id="band_username" name="username" type="text" placeholder="e.g., NeonOwls" required
+                            pattern="^[A-Za-z][A-Za-z0-9]{5,}$" minlength="6">
+                    </div>
+
+                    <div class="field">
+                        <label for="band_email">*Email</label>
+                        <input id="band_email" name="email" type="email" placeholder="e.g., contact@band.com" required>
+                    </div>
+                </div>
+
+                <div class="row-fields">
+                    <div class="field">
+                        <label for="band_password">*Password</label>
+                        <div class="password-wrapper">
+                            <input id="band_password" name="password" type="password" required minlength="8"
+                                maxlength="14" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[#$%&@!^*?_+\-]).{8,14}$">
+                            <img src="assets/view.png" id="togglePasswordBand" class="toggle-password-icon"
+                                alt="Show/Hide Password">
+                        </div>
+                        <small id="b-pw-hint" class="hint">8–14 chars, ≥1 capital, ≥1 number, ≥1 symbol (# $ % & @ ! ^ *
+                            ?
+                            _ + -)</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="b_ConfirmPass">*Confirm Password</label>
+                        <div class="password-wrapper">
+                            <input id="b_ConfirmPass" name="b_ConfirmPass" type="password" required minlength="8"
+                                maxlength="14" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[#$%&@!^*?_+\-]).{8,14}$">
+                            <img src="assets/view.png" id="toggleconfirmPasswordBand" class="toggle-password-icon"
+                                alt="Show/Hide Password">
+                        </div>
+                        <small id="b-cpw-hint" class="hint">Please re-enter the same password.</small>
+                    </div>
+
+                    <div id="passwordErrorBand" style="color: red; display: none;">
+                        Password and Confirm Password fields don't match.
+                    </div>
+
+                    <div id="strengthErrorBand" style="color: red; display: none;">
+                    </div>
+
+                </div>
+
+                <div class="row-fields">
+                    <div class="field">
+                        <label for="band_name">*Band Name</label>
+                        <input id="band_name" name="band_name" type="text" minlength="3" maxlength="30" required
+                            placeholder="e.g., Neon Owls">
+                    </div>
+
+                    <div class="field">
+                        <label for="music_genres">*Music Genres</label>
+                        <input id="music_genres" name="music_genres" type="text" minlength="3" maxlength="200" required
+                            placeholder="e.g., Rock, Synthwave">
+                    </div>
+                </div>
+
+                <div class="row-fields four">
+
+                    <div class="field">
+                        <label for="band_telephone">*Telephone</label>
+                        <input style="width: 250px;" id="band_telephone" name="telephone" type="tel" required
+                            inputmode="numeric" pattern="^\d{10,14}$" placeholder="e.g. 2101234567">
+                    </div>
+
+                    <div class="field">
+                        <label for="members_number">*Members</label>
+                        <input style="width:fit-content;" id="members_number" name="members_number" type="number"
+                            min="1" max="10" required>
+                        <small id="b-members-hint" class="hint">1-10 members</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="foundedYear">*Founded Year</label>
+                        <input style="width:fit-content;" id="foundedYear" name="foundedYear" type="number" min="1960"
+                            max="2100" required>
+                        <small id="b-founded-hint" class="hint">≥1960</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="band_city">*Band City</label>
+                        <input style="width:fit-content;" id="band_city" name="band_city" type="text" minlength="3"
+                            maxlength="30" required pattern="^[A-Za-z ]{3,30}$" placeholder="e.g., Heraklion">
+                    </div>
+                </div>
+
+
+                <div class="row-fields two-col">
+
+                    <div class="field">
+                        <label for="band_description">*Band Description</label>
+                        <textarea
+                            style="width:500px; height:95px; border-radius:5px; border-color:#920072; border-width: 2px; padding-left: 10px;"
+                            id="band_description" name="band_description" minlength="3" maxlength="1000" rows="3"
+                            required placeholder="Short bio…"></textarea>
+                    </div>
+
+
+                    <div class="vstack">
+                        <div class="field">
+                            <label for="photo">Photo Link</label>
+                            <input id="photo" name="photo" type="url" placeholder="http://example.com/image.jpg">
+                        </div>
+
+                        <div class="field">
+                            <label for="webpage">Webpage Link</label>
+                            <input id="webpage" name="webpage" type="url" placeholder="http://example.com">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="actions"><button type="submit" class="btn-submit">Register Band</button></div>
+            </form>
+        </main>
+
+        <div class="json-output-area" style="padding: 20px;">
+            <h3>JSON Output:</h3>
+
+            <pre id="jsonOutputUser"
+                style="background-color: #222; color: #00ff7f; padding: 15px; border-radius: 5px; display: none;"></pre>
+
+            <pre id="jsonOutputBand"
+                style="background-color: #222; color: #ff00ff; padding: 15px; border-radius: 5px; display: none;"></pre>
+        </div>
+
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

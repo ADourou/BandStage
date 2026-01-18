@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>REST API Test Page</title>
+    <link rel="stylesheet" href="formStyle.css"> 
+    
+    <style>
+        
+        body { 
+            padding: 20px; 
+            color: white; 
+        }
+        
+        h3 { 
+            border-bottom: 2px solid #02becf; 
+            padding-bottom: 5px; 
+            margin-top: 30px;
+            color: #02becf; 
+        }
+
+       
+        input, select, textarea { 
+            display: block; 
+            margin-bottom: 10px; 
+            width: 300px; 
+            padding: 5px;
+            color: black; 
+        }
+
+        button { 
+            background-color: #02becf; 
+            color: white; 
+            border: none; 
+            padding: 8px 15px; 
+            cursor: pointer; 
+            font-weight: bold;
+        }
+
+       
+
+        
+        #output { 
+            background: #222; 
+            color: #0f0;      
+            border: 1px solid #555; 
+            padding: 10px; 
+            min-height: 50px; 
+            white-space: pre-wrap; 
+            margin-top: 20px;
+            font-family: monospace;
+        }
+
+        a {
+            color: #02becf;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>REST API Tester (Exercise 4)</h1>
+    <a href="index.html">&larr; Back to Home</a>
+
+    <h3>1. Submit Review (POST)</h3>
+    <label>Band Name:</label>
+    <input type="text" id="bandName" placeholder="e.g. Melisses">
+    
+    <label>Username (Sender):</label>
+    <input type="text" id="sender" placeholder="Your Name">
+    
+    <label>Review:</label>
+    <textarea id="reviewText" placeholder="Write your review here..."></textarea>
+    
+    <label>Rating (1-5):</label>
+    <input type="number" id="rating" min="1" max="5" value="5">
+    
+    <button onclick="sendPost()">Submit Review (POST)</button>
+
+
+    <h3>2. Get Reviews (GET)</h3>
+    <label>Band Name (or 'all'):</label>
+    <input type="text" id="searchBand" value="all">
+    
+    <button onclick="sendGet()">Get Reviews (GET)</button>
+
+
+    <h3>3. Update Status (PUT)</h3>
+    <label>Review ID:</label>
+    <input type="number" id="reviewIdUpdate" placeholder="ID from database">
+    
+    <label>New Status:</label>
+    <select id="newStatus">
+        <option value="published">published</option>
+        <option value="rejected">rejected</option>
+        <option value="pending">pending</option>
+    </select>
+    
+    <button onclick="sendPut()">Update Status (PUT)</button>
+
+
+    <h3>4. Delete Review (DELETE)</h3>
+    <label>Review ID:</label>
+    <input type="number" id="reviewIdDelete" placeholder="ID to delete">
+    
+    <button onclick="sendDelete()" style="background-color: #ff4444;">Delete Review (DELETE)</button>
+
+
+    <h3>Server Response (JSON):</h3>
+    <div id="output">Results will appear here...</div>
+
+
+    <script>
+       
+        function showResult(data) {
+            const outputDiv = document.getElementById('output');
+            outputDiv.textContent = JSON.stringify(data, null, 2);
+        }
+
+       
+        function sendPost() {
+            const data = {
+                band_name: document.getElementById('bandName').value,
+                sender: document.getElementById('sender').value,
+                review: document.getElementById('reviewText').value,
+                rating: document.getElementById('rating').value
+            };
+
+            fetch('/review', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => showResult(data))
+            .catch(error => showResult({ error: error.message }));
+        }
+
+        
+        function sendGet() {
+            const band = document.getElementById('searchBand').value;
+            
+            fetch('/reviews/' + band)
+            .then(response => response.json())
+            .then(data => showResult(data))
+            .catch(error => showResult({ error: error.message }));
+        }
+
+        
+        function sendPut() {
+            const id = document.getElementById('reviewIdUpdate').value;
+            const status = document.getElementById('newStatus').value;
+
+            if (!id) { alert("Please enter a Review ID!"); return; }
+
+            fetch('/reviewStatus/' + id + '/' + status, {
+                method: 'PUT'
+            })
+            .then(response => response.json())
+            .then(data => showResult(data))
+            .catch(error => showResult({ error: error.message }));
+        }
+
+        
+        function sendDelete() {
+            const id = document.getElementById('reviewIdDelete').value;
+
+            if (!id) { alert("Please enter a Review ID!"); return; }
+
+            fetch('/reviewDeletion/' + id, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => showResult(data))
+            .catch(error => showResult({ error: error.message }));
+        }
+    </script>
+
+</body>
+</html>
