@@ -1,6 +1,6 @@
-# Band Finder 🎸
+# BandStage 🎸
 
-**Band Finder** is a full stack web platform designed to connect music bands with fans. It features a robust authentication system, real-time geolocation services, and a dedicated REST API for managing reviews.
+**BandStage** is a full stack web platform designed to connect music bands with fans. It features a robust authentication system, real-time geolocation services, and a dedicated REST API for managing reviews.
 
 ## 🚀 Key Features
 
